@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-btscanlogwebappv1-dev-223100-authRole",
+      "UnauthRoleArn": "arn:aws:iam::089627766064:role/amplify-btscanlogwebappv1-dev-223100-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::089627766064:role/amplify-btscanlogwebappv1-dev-223100-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-btscanlogwebappv1-dev-223100-deployment",
+      "UnauthRoleName": "amplify-btscanlogwebappv1-dev-223100-unauthRole",
+      "StackName": "amplify-btscanlogwebappv1-dev-223100",
+      "StackId": "arn:aws:cloudformation:us-east-1:089627766064:stack/amplify-btscanlogwebappv1-dev-223100/9d370740-30b0-11ed-8932-0acc6eaed721",
+      "AmplifyAppId": "d2yh35lcbo7mhv"
+    }
+  }
+}
