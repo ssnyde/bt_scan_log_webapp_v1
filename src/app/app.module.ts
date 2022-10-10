@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,8 @@ import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
     BrowserAnimationsModule,
     MatTableModule,
     AmplifyAuthenticatorModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

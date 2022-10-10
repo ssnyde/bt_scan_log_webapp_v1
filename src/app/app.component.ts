@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { APIService, Restaurant } from './API.service';
+import { Subscription } from 'rxjs';
 
 export interface PeriodicElement {
   name: string;
@@ -25,8 +28,57 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
   title = 'bt_scan_log_webapp_v1';
+
+  public createForm: FormGroup;
+
+  /* declare restaurants variable */
+  public restaurants: Array<Restaurant> = [];
+
+  constructor(private api: APIService, private fb: FormBuilder) {
+    this.createForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      city: ['', Validators.required]
+    });
+  }
+
+  private subscription: Subscription | null = null;
+
+  async ngOnInit() {
+    /* fetch restaurants when app loads */
+    this.api.ListRestaurants().then((event) => {
+      this.restaurants = event.items as Restaurant[];
+    });
+
+    /* subscribe to new restaurants being created */
+    this.subscription = <Subscription>(
+      this.api.OnCreateRestaurantListener.subscribe((event: any) => {
+        const newRestaurant = event.value.data.onCreateRestaurant;
+        this.restaurants = [newRestaurant, ...this.restaurants];
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = null;
+  }
+
+  public onCreate(restaurant: Restaurant) {
+    this.api
+      .CreateRestaurant(restaurant)
+      .then((event) => {
+        console.log('item created!');
+        this.createForm.reset();
+      })
+      .catch((e) => {
+        console.log('error creating restaurant...', e);
+      });
+  }
 }
