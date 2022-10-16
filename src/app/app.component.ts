@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { APIService, Restaurant } from './API.service';
+import { APIService, ScanEntry } from './API.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -10,38 +9,33 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['id', 'name', 'description', 'city'];
-  dataSource = new MatTableDataSource<Restaurant>();
+  displayedColumns: string[] = ['user', 'home', 'scanner', 'name', 'timestamp', 'rssi'];
+  dataSource = new MatTableDataSource<ScanEntry>();
   title = 'bt_scan_log_webapp_v1';
 
-  public createForm: FormGroup;
-
   /* declare restaurants variable */
-  public restaurants: Array<Restaurant> = [];
+  public scan_entries: Array<ScanEntry> = [];
 
-  constructor(private api: APIService, private fb: FormBuilder) {
-    this.createForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      city: ['', Validators.required]
-    });
+  
+  constructor(private api: APIService) {
+
   }
 
   private subscription: Subscription | null = null;
 
   async ngOnInit() {
     /* fetch restaurants when app loads */
-    this.api.ListRestaurants().then((event) => {
-      this.restaurants = event.items as Restaurant[];
-      this.dataSource.data = this.restaurants;
+    this.api.ListScanEntries().then((event) => {
+      this.scan_entries = event.items as ScanEntry[];
+      this.dataSource.data = this.scan_entries;
     });
 
     /* subscribe to new restaurants being created */
-    this.dataSource.data = this.restaurants;
+    this.dataSource.data = this.scan_entries;
     this.subscription = <Subscription>(
-      this.api.OnCreateRestaurantListener.subscribe((event: any) => {
-        this.restaurants = [event.value.data.onCreateRestaurant, ...this.restaurants];
-        this.dataSource.data = this.restaurants;
+      this.api.OnCreateScanEntryListener.subscribe((event: any) => {
+        this.scan_entries = [event.value.data.onCreateScanEntry, ...this.scan_entries];
+        this.dataSource.data = this.scan_entries;
       })
     );
   }
@@ -51,17 +45,5 @@ export class AppComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
     this.subscription = null;
-  }
-
-  public onCreate(restaurant: Restaurant) {
-    this.api
-      .CreateRestaurant(restaurant)
-      .then((event) => {
-        console.log('item created!');
-        this.createForm.reset();
-      })
-      .catch((e) => {
-        console.log('error creating restaurant...', e);
-      });
   }
 }

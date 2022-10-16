@@ -10,25 +10,31 @@ export interface SubscriptionResponse<T> {
 }
 
 export type __SubscriptionContainer = {
-  onCreateRestaurant: OnCreateRestaurantSubscription;
-  onUpdateRestaurant: OnUpdateRestaurantSubscription;
-  onDeleteRestaurant: OnDeleteRestaurantSubscription;
+  onCreateScanEntry: OnCreateScanEntrySubscription;
+  onUpdateScanEntry: OnUpdateScanEntrySubscription;
+  onDeleteScanEntry: OnDeleteScanEntrySubscription;
 };
 
-export type CreateRestaurantInput = {
+export type CreateScanEntryInput = {
   id?: string | null;
+  user: string;
+  home: string;
+  scanner: string;
   name: string;
-  description: string;
-  city: string;
+  timestamp: string;
+  rssi: number;
 };
 
-export type ModelRestaurantConditionInput = {
+export type ModelScanEntryConditionInput = {
+  user?: ModelStringInput | null;
+  home?: ModelStringInput | null;
+  scanner?: ModelStringInput | null;
   name?: ModelStringInput | null;
-  description?: ModelStringInput | null;
-  city?: ModelStringInput | null;
-  and?: Array<ModelRestaurantConditionInput | null> | null;
-  or?: Array<ModelRestaurantConditionInput | null> | null;
-  not?: ModelRestaurantConditionInput | null;
+  timestamp?: ModelStringInput | null;
+  rssi?: ModelIntInput | null;
+  and?: Array<ModelScanEntryConditionInput | null> | null;
+  or?: Array<ModelScanEntryConditionInput | null> | null;
+  not?: ModelScanEntryConditionInput | null;
 };
 
 export type ModelStringInput = {
@@ -70,35 +76,56 @@ export type ModelSizeInput = {
   between?: Array<number | null> | null;
 };
 
-export type Restaurant = {
-  __typename: "Restaurant";
+export type ModelIntInput = {
+  ne?: number | null;
+  eq?: number | null;
+  le?: number | null;
+  lt?: number | null;
+  ge?: number | null;
+  gt?: number | null;
+  between?: Array<number | null> | null;
+  attributeExists?: boolean | null;
+  attributeType?: ModelAttributeTypes | null;
+};
+
+export type ScanEntry = {
+  __typename: "ScanEntry";
   id: string;
+  user: string;
+  home: string;
+  scanner: string;
   name: string;
-  description: string;
-  city: string;
+  timestamp: string;
+  rssi: number;
   createdAt: string;
   updatedAt: string;
 };
 
-export type UpdateRestaurantInput = {
+export type UpdateScanEntryInput = {
   id: string;
+  user?: string | null;
+  home?: string | null;
+  scanner?: string | null;
   name?: string | null;
-  description?: string | null;
-  city?: string | null;
+  timestamp?: string | null;
+  rssi?: number | null;
 };
 
-export type DeleteRestaurantInput = {
+export type DeleteScanEntryInput = {
   id: string;
 };
 
-export type ModelRestaurantFilterInput = {
+export type ModelScanEntryFilterInput = {
   id?: ModelIDInput | null;
+  user?: ModelStringInput | null;
+  home?: ModelStringInput | null;
+  scanner?: ModelStringInput | null;
   name?: ModelStringInput | null;
-  description?: ModelStringInput | null;
-  city?: ModelStringInput | null;
-  and?: Array<ModelRestaurantFilterInput | null> | null;
-  or?: Array<ModelRestaurantFilterInput | null> | null;
-  not?: ModelRestaurantFilterInput | null;
+  timestamp?: ModelStringInput | null;
+  rssi?: ModelIntInput | null;
+  and?: Array<ModelScanEntryFilterInput | null> | null;
+  or?: Array<ModelScanEntryFilterInput | null> | null;
+  not?: ModelScanEntryFilterInput | null;
 };
 
 export type ModelIDInput = {
@@ -117,92 +144,116 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null;
 };
 
-export type ModelRestaurantConnection = {
-  __typename: "ModelRestaurantConnection";
-  items: Array<Restaurant | null>;
+export type ModelScanEntryConnection = {
+  __typename: "ModelScanEntryConnection";
+  items: Array<ScanEntry | null>;
   nextToken?: string | null;
 };
 
-export type CreateRestaurantMutation = {
-  __typename: "Restaurant";
+export type CreateScanEntryMutation = {
+  __typename: "ScanEntry";
   id: string;
+  user: string;
+  home: string;
+  scanner: string;
   name: string;
-  description: string;
-  city: string;
+  timestamp: string;
+  rssi: number;
   createdAt: string;
   updatedAt: string;
 };
 
-export type UpdateRestaurantMutation = {
-  __typename: "Restaurant";
+export type UpdateScanEntryMutation = {
+  __typename: "ScanEntry";
   id: string;
+  user: string;
+  home: string;
+  scanner: string;
   name: string;
-  description: string;
-  city: string;
+  timestamp: string;
+  rssi: number;
   createdAt: string;
   updatedAt: string;
 };
 
-export type DeleteRestaurantMutation = {
-  __typename: "Restaurant";
+export type DeleteScanEntryMutation = {
+  __typename: "ScanEntry";
   id: string;
+  user: string;
+  home: string;
+  scanner: string;
   name: string;
-  description: string;
-  city: string;
+  timestamp: string;
+  rssi: number;
   createdAt: string;
   updatedAt: string;
 };
 
-export type GetRestaurantQuery = {
-  __typename: "Restaurant";
+export type GetScanEntryQuery = {
+  __typename: "ScanEntry";
   id: string;
+  user: string;
+  home: string;
+  scanner: string;
   name: string;
-  description: string;
-  city: string;
+  timestamp: string;
+  rssi: number;
   createdAt: string;
   updatedAt: string;
 };
 
-export type ListRestaurantsQuery = {
-  __typename: "ModelRestaurantConnection";
+export type ListScanEntriesQuery = {
+  __typename: "ModelScanEntryConnection";
   items: Array<{
-    __typename: "Restaurant";
+    __typename: "ScanEntry";
     id: string;
+    user: string;
+    home: string;
+    scanner: string;
     name: string;
-    description: string;
-    city: string;
+    timestamp: string;
+    rssi: number;
     createdAt: string;
     updatedAt: string;
   } | null>;
   nextToken?: string | null;
 };
 
-export type OnCreateRestaurantSubscription = {
-  __typename: "Restaurant";
+export type OnCreateScanEntrySubscription = {
+  __typename: "ScanEntry";
   id: string;
+  user: string;
+  home: string;
+  scanner: string;
   name: string;
-  description: string;
-  city: string;
+  timestamp: string;
+  rssi: number;
   createdAt: string;
   updatedAt: string;
 };
 
-export type OnUpdateRestaurantSubscription = {
-  __typename: "Restaurant";
+export type OnUpdateScanEntrySubscription = {
+  __typename: "ScanEntry";
   id: string;
+  user: string;
+  home: string;
+  scanner: string;
   name: string;
-  description: string;
-  city: string;
+  timestamp: string;
+  rssi: number;
   createdAt: string;
   updatedAt: string;
 };
 
-export type OnDeleteRestaurantSubscription = {
-  __typename: "Restaurant";
+export type OnDeleteScanEntrySubscription = {
+  __typename: "ScanEntry";
   id: string;
+  user: string;
+  home: string;
+  scanner: string;
   name: string;
-  description: string;
-  city: string;
+  timestamp: string;
+  rssi: number;
   createdAt: string;
   updatedAt: string;
 };
@@ -211,17 +262,20 @@ export type OnDeleteRestaurantSubscription = {
   providedIn: "root"
 })
 export class APIService {
-  async CreateRestaurant(
-    input: CreateRestaurantInput,
-    condition?: ModelRestaurantConditionInput
-  ): Promise<CreateRestaurantMutation> {
-    const statement = `mutation CreateRestaurant($input: CreateRestaurantInput!, $condition: ModelRestaurantConditionInput) {
-        createRestaurant(input: $input, condition: $condition) {
+  async CreateScanEntry(
+    input: CreateScanEntryInput,
+    condition?: ModelScanEntryConditionInput
+  ): Promise<CreateScanEntryMutation> {
+    const statement = `mutation CreateScanEntry($input: CreateScanEntryInput!, $condition: ModelScanEntryConditionInput) {
+        createScanEntry(input: $input, condition: $condition) {
           __typename
           id
+          user
+          home
+          scanner
           name
-          description
-          city
+          timestamp
+          rssi
           createdAt
           updatedAt
         }
@@ -235,19 +289,22 @@ export class APIService {
     const response = (await API.graphql(
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
-    return <CreateRestaurantMutation>response.data.createRestaurant;
+    return <CreateScanEntryMutation>response.data.createScanEntry;
   }
-  async UpdateRestaurant(
-    input: UpdateRestaurantInput,
-    condition?: ModelRestaurantConditionInput
-  ): Promise<UpdateRestaurantMutation> {
-    const statement = `mutation UpdateRestaurant($input: UpdateRestaurantInput!, $condition: ModelRestaurantConditionInput) {
-        updateRestaurant(input: $input, condition: $condition) {
+  async UpdateScanEntry(
+    input: UpdateScanEntryInput,
+    condition?: ModelScanEntryConditionInput
+  ): Promise<UpdateScanEntryMutation> {
+    const statement = `mutation UpdateScanEntry($input: UpdateScanEntryInput!, $condition: ModelScanEntryConditionInput) {
+        updateScanEntry(input: $input, condition: $condition) {
           __typename
           id
+          user
+          home
+          scanner
           name
-          description
-          city
+          timestamp
+          rssi
           createdAt
           updatedAt
         }
@@ -261,19 +318,22 @@ export class APIService {
     const response = (await API.graphql(
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
-    return <UpdateRestaurantMutation>response.data.updateRestaurant;
+    return <UpdateScanEntryMutation>response.data.updateScanEntry;
   }
-  async DeleteRestaurant(
-    input: DeleteRestaurantInput,
-    condition?: ModelRestaurantConditionInput
-  ): Promise<DeleteRestaurantMutation> {
-    const statement = `mutation DeleteRestaurant($input: DeleteRestaurantInput!, $condition: ModelRestaurantConditionInput) {
-        deleteRestaurant(input: $input, condition: $condition) {
+  async DeleteScanEntry(
+    input: DeleteScanEntryInput,
+    condition?: ModelScanEntryConditionInput
+  ): Promise<DeleteScanEntryMutation> {
+    const statement = `mutation DeleteScanEntry($input: DeleteScanEntryInput!, $condition: ModelScanEntryConditionInput) {
+        deleteScanEntry(input: $input, condition: $condition) {
           __typename
           id
+          user
+          home
+          scanner
           name
-          description
-          city
+          timestamp
+          rssi
           createdAt
           updatedAt
         }
@@ -287,16 +347,19 @@ export class APIService {
     const response = (await API.graphql(
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
-    return <DeleteRestaurantMutation>response.data.deleteRestaurant;
+    return <DeleteScanEntryMutation>response.data.deleteScanEntry;
   }
-  async GetRestaurant(id: string): Promise<GetRestaurantQuery> {
-    const statement = `query GetRestaurant($id: ID!) {
-        getRestaurant(id: $id) {
+  async GetScanEntry(id: string): Promise<GetScanEntryQuery> {
+    const statement = `query GetScanEntry($id: ID!) {
+        getScanEntry(id: $id) {
           __typename
           id
+          user
+          home
+          scanner
           name
-          description
-          city
+          timestamp
+          rssi
           createdAt
           updatedAt
         }
@@ -307,22 +370,25 @@ export class APIService {
     const response = (await API.graphql(
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
-    return <GetRestaurantQuery>response.data.getRestaurant;
+    return <GetScanEntryQuery>response.data.getScanEntry;
   }
-  async ListRestaurants(
-    filter?: ModelRestaurantFilterInput,
+  async ListScanEntries(
+    filter?: ModelScanEntryFilterInput,
     limit?: number,
     nextToken?: string
-  ): Promise<ListRestaurantsQuery> {
-    const statement = `query ListRestaurants($filter: ModelRestaurantFilterInput, $limit: Int, $nextToken: String) {
-        listRestaurants(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  ): Promise<ListScanEntriesQuery> {
+    const statement = `query ListScanEntries($filter: ModelScanEntryFilterInput, $limit: Int, $nextToken: String) {
+        listScanEntries(filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
           items {
             __typename
             id
+            user
+            home
+            scanner
             name
-            description
-            city
+            timestamp
+            rssi
             createdAt
             updatedAt
           }
@@ -342,65 +408,74 @@ export class APIService {
     const response = (await API.graphql(
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
-    return <ListRestaurantsQuery>response.data.listRestaurants;
+    return <ListScanEntriesQuery>response.data.listScanEntries;
   }
-  OnCreateRestaurantListener: Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateRestaurant">>
+  OnCreateScanEntryListener: Observable<
+    SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateScanEntry">>
   > = API.graphql(
     graphqlOperation(
-      `subscription OnCreateRestaurant {
-        onCreateRestaurant {
+      `subscription OnCreateScanEntry {
+        onCreateScanEntry {
           __typename
           id
+          user
+          home
+          scanner
           name
-          description
-          city
+          timestamp
+          rssi
           createdAt
           updatedAt
         }
       }`
     )
   ) as Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateRestaurant">>
+    SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateScanEntry">>
   >;
 
-  OnUpdateRestaurantListener: Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onUpdateRestaurant">>
+  OnUpdateScanEntryListener: Observable<
+    SubscriptionResponse<Pick<__SubscriptionContainer, "onUpdateScanEntry">>
   > = API.graphql(
     graphqlOperation(
-      `subscription OnUpdateRestaurant {
-        onUpdateRestaurant {
+      `subscription OnUpdateScanEntry {
+        onUpdateScanEntry {
           __typename
           id
+          user
+          home
+          scanner
           name
-          description
-          city
+          timestamp
+          rssi
           createdAt
           updatedAt
         }
       }`
     )
   ) as Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onUpdateRestaurant">>
+    SubscriptionResponse<Pick<__SubscriptionContainer, "onUpdateScanEntry">>
   >;
 
-  OnDeleteRestaurantListener: Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onDeleteRestaurant">>
+  OnDeleteScanEntryListener: Observable<
+    SubscriptionResponse<Pick<__SubscriptionContainer, "onDeleteScanEntry">>
   > = API.graphql(
     graphqlOperation(
-      `subscription OnDeleteRestaurant {
-        onDeleteRestaurant {
+      `subscription OnDeleteScanEntry {
+        onDeleteScanEntry {
           __typename
           id
+          user
+          home
+          scanner
           name
-          description
-          city
+          timestamp
+          rssi
           createdAt
           updatedAt
         }
       }`
     )
   ) as Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onDeleteRestaurant">>
+    SubscriptionResponse<Pick<__SubscriptionContainer, "onDeleteScanEntry">>
   >;
 }

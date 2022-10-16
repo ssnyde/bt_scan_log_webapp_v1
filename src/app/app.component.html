@@ -4,9 +4,21 @@
           The actual rendered columns are set as a property on the row definition" -->
    
     <!-- Position Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef> User </th>
+      <td mat-cell *matCellDef="let element"> {{element.user}} </td>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="home">
+      <th mat-header-cell *matHeaderCellDef> Home </th>
+      <td mat-cell *matCellDef="let element"> {{element.home}} </td>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="scanner">
+      <th mat-header-cell *matHeaderCellDef> Scanner </th>
+      <td mat-cell *matCellDef="let element"> {{element.scanner}} </td>
     </ng-container>
   
     <!-- Name Column -->
@@ -16,45 +28,17 @@
     </ng-container>
   
     <!-- Weight Column -->
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Description </th>
-      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+      <td mat-cell *matCellDef="let element"> {{element.timestamp}} </td>
     </ng-container>
   
     <!-- Symbol Column -->
-    <ng-container matColumnDef="city">
-      <th mat-header-cell *matHeaderCellDef> City </th>
-      <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+    <ng-container matColumnDef="rssi">
+      <th mat-header-cell *matHeaderCellDef> RSSI </th>
+      <td mat-cell *matCellDef="let element"> {{element.rssi}} </td>
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  
-  <div class="form-body">
-    <form
-      autocomplete="off"
-      [formGroup]="createForm"
-      (ngSubmit)="onCreate(createForm.value)"
-    >
-      <div>
-        <label>Name: </label>
-        <input type="text" formControlName="name" autocomplete="off" />
-      </div>
-      <div>
-        <label>Description: </label>
-        <input type="text" formControlName="description" autocomplete="off" />
-      </div>
-      <div>
-        <label>City: </label>
-        <input type="text" formControlName="city" autocomplete="off" />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-  </div>
-
-  <div *ngFor="let restaurant of restaurants">
-    <div>{{ restaurant.city }}</div>
-    <div>{{ restaurant.name }}</div>
-    <div>{{ restaurant.description }}</div>
-  </div>
+  </table>  
