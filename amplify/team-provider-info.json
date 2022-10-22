@@ -10,6 +10,11 @@
       "StackName": "amplify-btscanlogwebappv1-dev-223100",
       "StackId": "arn:aws:cloudformation:us-east-1:089627766064:stack/amplify-btscanlogwebappv1-dev-223100/9d370740-30b0-11ed-8932-0acc6eaed721",
       "AmplifyAppId": "d2yh35lcbo7mhv"
+    },
+    "categories": {
+      "auth": {
+        "btscanlogwebappv1b12fceb2": {}
+      }
     }
   }
 }
