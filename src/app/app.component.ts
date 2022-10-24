@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { APIService, ScanEntry } from './API.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
+import { Amplify, PubSub, Auth } from 'aws-amplify';
+import { AWSIoTProvider } from '@aws-amplify/pubsub'
 
 @Component({
   selector: 'app-root',
@@ -23,7 +25,23 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription | null = null;
 
+  cognitoIdentityId: string = '';
+
   async ngOnInit() {
+    /* Apply plugin with configuration */
+    Amplify.addPluggable(
+      new AWSIoTProvider({
+        aws_pubsub_region: 'us-east-1',
+        aws_pubsub_endpoint:
+          'wss://al9jms4pkzeur-ats.iot.us-east-1.amazonaws.com/mqtt'
+      })
+    );
+
+    Auth.currentCredentials().then((info) => {
+      this.cognitoIdentityId = info.identityId;
+      //console.log(info.identityId);
+    });
+
     /* fetch restaurants when app loads */
     this.api.ListScanEntries().then((event) => {
       this.scan_entries = event.items as ScanEntry[];
