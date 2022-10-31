@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { APIService, ScanEntry } from './API.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { Amplify, PubSub, Auth } from 'aws-amplify';
+import Amplify, { PubSub, Auth } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub'
 
 @Component({
@@ -41,21 +41,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.cognitoIdentityId = info.identityId;
       //console.log(info.identityId);
     });
+  }
 
-    /* fetch restaurants when app loads */
-    this.api.ListScanEntries().then((event) => {
-      this.scan_entries = event.items as ScanEntry[];
-      this.dataSource.data = this.scan_entries;
+  ngAfterContentInit() {
+    PubSub.subscribe('dt/bt_scan_log_v1/scanner1', { provider: 'AWSIoTProvider' }).subscribe({
+      next: data => console.log('Message received', data),
+      error: error => console.error(error),
+      complete: () => console.log('Done'),
     });
-
-    /* subscribe to new restaurants being created */
-    this.dataSource.data = this.scan_entries;
-    this.subscription = <Subscription>(
-      this.api.OnCreateScanEntryListener.subscribe((event: any) => {
-        this.scan_entries = [event.value.data.onCreateScanEntry, ...this.scan_entries];
-        this.dataSource.data = this.scan_entries;
-      })
-    );
   }
 
   ngOnDestroy() {
