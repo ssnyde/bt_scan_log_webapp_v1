@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { APIService, ScanEntry } from './API.service';
 import { Subscription } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable } from '@angular/material/table';
 import Amplify, { PubSub, Auth } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub'
 
@@ -11,13 +11,11 @@ import { AWSIoTProvider } from '@aws-amplify/pubsub'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['user', 'home', 'scanner', 'name', 'timestamp', 'rssi'];
-  dataSource = new MatTableDataSource<ScanEntry>();
+  displayedColumns: string[] = ['name', 'timestamp', 'rssi'];
+  dataSource: Array<any> = [];
   title = 'bt_scan_log_webapp_v1';
 
-  /* declare restaurants variable */
-  public scan_entries: Array<ScanEntry> = [];
-
+  @ViewChild(MatTable) table!: MatTable<any>;
   
   constructor(private api: APIService) {
 
@@ -43,9 +41,18 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
+  handle_data(data: any) {
+    console.log(data);
+    let new_entry = {'name': data.value.COMPLETE_LOCAL_NAME,
+          'timestamp': data.value.DATETIME,
+          'rssi': data.value.RSSI};
+    this.dataSource.push(new_entry);
+    this.table.renderRows();
+  }
+
   ngAfterContentInit() {
-    PubSub.subscribe('dt/bt_scan_log_v1/scanner1', { provider: 'AWSIoTProvider' }).subscribe({
-      next: data => console.log('Message received', data),
+    PubSub.subscribe('dt/bt_scan_log_v1/scanner_sim_1', { provider: 'AWSIoTProvider' }).subscribe({
+      next: data => this.handle_data(data),
       error: error => console.error(error),
       complete: () => console.log('Done'),
     });
