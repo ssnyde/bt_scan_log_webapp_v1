@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { APIService, ScanEntry } from './API.service';
 import { Subscription } from 'rxjs';
-import { MatTable } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import Amplify, { PubSub, Auth } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub'
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,12 @@ import { AWSIoTProvider } from '@aws-amplify/pubsub'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['name', 'timestamp', 'rssi'];
-  dataSource: Array<any> = [];
+  dataSourceI: Array<any> = [];
+  dataSource = new MatTableDataSource(this.dataSourceI);
   title = 'bt_scan_log_webapp_v1';
+  columnSelect = new FormControl('');
+  columnList: string[] = [];
+  columnSelected: string[] = [];
 
   @ViewChild(MatTable) table!: MatTable<any>;
   
@@ -36,17 +40,20 @@ export class AppComponent implements OnInit, OnDestroy {
     );
 
     Auth.currentCredentials().then((info) => {
-      this.cognitoIdentityId = info.identityId;
+      //this.cognitoIdentityId = info.identityId;
       //console.log(info.identityId);
     });
   }
 
   handle_data(data: any) {
-    console.log(data);
-    let new_entry = {'name': data.value.COMPLETE_LOCAL_NAME,
-          'timestamp': data.value.DATETIME,
-          'rssi': data.value.RSSI};
-    this.dataSource.push(new_entry);
+    //console.log(data.value);
+    for (let new_column in data.value) {
+      if (!this.columnList.includes(new_column)) {
+        this.columnList.push(new_column);
+        //console.log("Added column " + new_column);
+      }
+    }
+    this.dataSourceI.push(data.value);
     this.table.renderRows();
   }
 
@@ -63,5 +70,15 @@ export class AppComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
     this.subscription = null;
+  }
+
+  clear() {
+    this.dataSourceI = [];
+    this.table.renderRows();
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }
