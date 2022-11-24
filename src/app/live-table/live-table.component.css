@@ -1,0 +1,16 @@
+table {
+    width: 100%;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+  
+.flex-container-2 {
+display: flex;
+justify-content: flex-start;
+align-items: flex-start;
+flex-direction: column;
+}
