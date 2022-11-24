@@ -11,7 +11,7 @@
     <button mat-icon-button color="primary" aria-label="Hide" (click)="hide()"><mat-icon>bolt</mat-icon></button>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-live-table></app-live-table>
+    <app-live-table [isVisible]="liveTableVisible" *ngIf="liveTableVisible"></app-live-table>
   </mat-sidenav-content>
 </mat-sidenav-container>
 </ng-template>

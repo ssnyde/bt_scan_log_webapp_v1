@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import Amplify, { PubSub, Auth } from 'aws-amplify';
@@ -19,6 +19,7 @@ export class LiveTableComponent implements OnInit, OnDestroy {
   columnSelected: string[] = [];
   private subscription: Subscription | null = null;
   @ViewChild(MatTable) table!: MatTable<any>;
+  @Input() isVisible: Boolean = true;
 
   constructor() { }
 

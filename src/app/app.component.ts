@@ -9,6 +9,7 @@ import Amplify, { PubSub, Auth } from 'aws-amplify';
 export class AppComponent implements OnInit {
 
   title = 'bt_scan_log_webapp_v1';
+  liveTableVisible: Boolean = true;
   
   constructor() {
 
@@ -24,7 +25,11 @@ export class AppComponent implements OnInit {
   }
 
   hide() {
-    
+    if (this.liveTableVisible == true) {
+      this.liveTableVisible = false;
+    } else {
+      this.liveTableVisible = true;
+    }
   }
 
 }
