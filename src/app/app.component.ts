@@ -73,7 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   clear() {
-    this.dataSourceI = [];
+    this.dataSourceI.length = 0;
     this.table.renderRows();
   }
 
