@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
 
   title = 'bt_scan_log_webapp_v1';
   liveTableVisible: Boolean = true;
+  settingsVisible: Boolean = false;
   
   constructor() {
 
@@ -24,12 +25,14 @@ export class AppComponent implements OnInit {
     });
   }
 
-  hide() {
-    if (this.liveTableVisible == true) {
-      this.liveTableVisible = false;
-    } else {
-      this.liveTableVisible = true;
-    }
+  showTable() {
+    this.settingsVisible = false;
+    this.liveTableVisible = true;
+  }
+
+  showSettings() {
+    this.liveTableVisible = false;
+    this.settingsVisible = true;
   }
 
 }

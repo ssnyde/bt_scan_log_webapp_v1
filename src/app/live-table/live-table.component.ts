@@ -47,7 +47,7 @@ export class LiveTableComponent implements OnInit, OnDestroy {
   }
 
   ngAfterContentInit() {
-    PubSub.subscribe('dt/bt_scan_log_v1/scanner_sim_1', { provider: 'AWSIoTProvider' }).subscribe({
+    PubSub.subscribe('dt/bt_scan_log_v1/scanner_sim_1').subscribe({
       next: data => this.handle_data(data),
       error: error => console.error(error),
       complete: () => console.log('Done'),

@@ -8,10 +8,13 @@
   <mat-sidenav mode="side" opened>
     <button mat-icon-button color="primary" aria-label="Sign Out" (click)="signOut()"><mat-icon>logout</mat-icon></button>
     <br>
-    <button mat-icon-button color="primary" aria-label="Hide" (click)="hide()"><mat-icon>bolt</mat-icon></button>
+    <button mat-icon-button color="primary" aria-label="Show Table" (click)="showTable()"><mat-icon>table</mat-icon></button>
+    <br>
+    <button mat-icon-button color="primary" aria-label="Show Settings" (click)="showSettings()"><mat-icon>settings</mat-icon></button>
   </mat-sidenav>
   <mat-sidenav-content>
     <app-live-table [isVisible]="liveTableVisible" *ngIf="liveTableVisible"></app-live-table>
+    <app-settings [isVisible]="settingsVisible" *ngIf="settingsVisible"></app-settings>
   </mat-sidenav-content>
 </mat-sidenav-container>
 </ng-template>

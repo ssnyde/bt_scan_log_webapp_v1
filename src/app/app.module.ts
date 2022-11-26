@@ -15,11 +15,13 @@ import { MatInputModule } from '@angular/material/input';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LiveTableComponent } from './live-table/live-table.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LiveTableComponent
+    LiveTableComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

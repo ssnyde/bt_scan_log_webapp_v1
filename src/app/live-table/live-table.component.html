@@ -1,35 +1,35 @@
 <div class="flex-container">
     <mat-form-field appearance="fill">
-      <mat-label>Columns</mat-label>
-      <mat-select [(value)] = "columnSelected" [formControl]="columnSelect" multiple>
+        <mat-label>Columns</mat-label>
+        <mat-select [(value)] = "columnSelected" [formControl]="columnSelect" multiple>
         <mat-option *ngFor="let column of columnList" [value]="column">{{column}}</mat-option>
-      </mat-select>
+        </mat-select>
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="clear()">Clear Table</button>
-  </div>
-  <div class="flex-container-2">
-  <mat-form-field appearance="standard">
+</div>
+<div class="flex-container-2">
+    <mat-form-field appearance="standard">
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-  </mat-form-field>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <!--- Note that these columns can be defined in any order.
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
-    
-      <ng-container [matColumnDef]="column" *ngFor="let column of columnSelected">
+
+        <ng-container [matColumnDef]="column" *ngFor="let column of columnSelected">
         <th mat-header-cell *matHeaderCellDef> {{column}} </th>
         <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-      </ng-container>
-    
-      <tr mat-header-row *matHeaderRowDef="columnSelected"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnSelected;"></tr>
+        </ng-container>
 
-      <!-- Row shown when there is no matching data. -->
-      <!--
-      <tr class="mat-row" *matNoDataRow>
+        <tr mat-header-row *matHeaderRowDef="columnSelected"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnSelected;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <!--
+        <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-      </tr>
+        </tr>
     -->
     </table>  
-    <!-- <br> Cognito Id: {{cognitoIdentityId}} //-->
-    </div>
+<!-- <br> Cognito Id: {{cognitoIdentityId}} //-->
+</div>
