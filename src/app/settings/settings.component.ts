@@ -16,7 +16,10 @@ export class SettingsComponent implements OnInit, AfterContentChecked {
   ngOnInit(): void {
     Auth.currentCredentials().then((info) => {
       this.cognitoIdentityId = info.identityId;
-      console.log(info.identityId);
+      console.log("Identity ID:" + info.identityId);
+    });
+    Auth.currentAuthenticatedUser().then((info) => {
+      console.log("User ID (Sub): " + info.attributes.sub);
     });
   }
 
