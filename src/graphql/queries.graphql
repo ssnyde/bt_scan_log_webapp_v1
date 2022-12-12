@@ -1,4 +1,7 @@
 # this is an auto generated file. This will be overwritten
+query Echo($msg: String) {
+  echo(msg: $msg)
+}
 query GetScanEntry($id: ID!) {
   getScanEntry(id: $id) {
     id

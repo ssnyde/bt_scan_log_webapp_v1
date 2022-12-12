@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, AfterContentChecked } from '@angular/core';
 import { Auth } from 'aws-amplify';
+import { APIService } from '../API.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,7 +12,7 @@ export class SettingsComponent implements OnInit, AfterContentChecked {
   @Input() isVisible: Boolean = true;
   cognitoIdentityId: string = '';
 
-  constructor() { }
+  constructor(private api: APIService) { }
 
   ngOnInit(): void {
     Auth.currentCredentials().then((info) => {
@@ -21,6 +22,9 @@ export class SettingsComponent implements OnInit, AfterContentChecked {
     Auth.currentAuthenticatedUser().then((info) => {
       console.log("User ID (Sub): " + info.attributes.sub);
     });
+    this.api.Echo("donkey").then((resp) => {
+      console.log("Echo responded with: " + resp);
+    })
   }
 
 

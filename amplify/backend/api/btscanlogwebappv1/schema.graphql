@@ -11,3 +11,7 @@ type ScanEntry @model {
   timestamp: String!
   rssi: Int!
 }
+
+type Query {
+  echo(msg: String): String @function(name: "btscanwebappv1Test1-${env}")
+}

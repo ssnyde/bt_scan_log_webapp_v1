@@ -150,6 +150,60 @@ export type ModelScanEntryConnection = {
   nextToken?: string | null;
 };
 
+export type ModelSubscriptionScanEntryFilterInput = {
+  id?: ModelSubscriptionIDInput | null;
+  user?: ModelSubscriptionStringInput | null;
+  home?: ModelSubscriptionStringInput | null;
+  scanner?: ModelSubscriptionStringInput | null;
+  name?: ModelSubscriptionStringInput | null;
+  timestamp?: ModelSubscriptionStringInput | null;
+  rssi?: ModelSubscriptionIntInput | null;
+  and?: Array<ModelSubscriptionScanEntryFilterInput | null> | null;
+  or?: Array<ModelSubscriptionScanEntryFilterInput | null> | null;
+};
+
+export type ModelSubscriptionIDInput = {
+  ne?: string | null;
+  eq?: string | null;
+  le?: string | null;
+  lt?: string | null;
+  ge?: string | null;
+  gt?: string | null;
+  contains?: string | null;
+  notContains?: string | null;
+  between?: Array<string | null> | null;
+  beginsWith?: string | null;
+  in?: Array<string | null> | null;
+  notIn?: Array<string | null> | null;
+};
+
+export type ModelSubscriptionStringInput = {
+  ne?: string | null;
+  eq?: string | null;
+  le?: string | null;
+  lt?: string | null;
+  ge?: string | null;
+  gt?: string | null;
+  contains?: string | null;
+  notContains?: string | null;
+  between?: Array<string | null> | null;
+  beginsWith?: string | null;
+  in?: Array<string | null> | null;
+  notIn?: Array<string | null> | null;
+};
+
+export type ModelSubscriptionIntInput = {
+  ne?: number | null;
+  eq?: number | null;
+  le?: number | null;
+  lt?: number | null;
+  ge?: number | null;
+  gt?: number | null;
+  between?: Array<number | null> | null;
+  in?: Array<number | null> | null;
+  notIn?: Array<number | null> | null;
+};
+
 export type CreateScanEntryMutation = {
   __typename: "ScanEntry";
   id: string;
@@ -349,6 +403,19 @@ export class APIService {
     )) as any;
     return <DeleteScanEntryMutation>response.data.deleteScanEntry;
   }
+  async Echo(msg?: string): Promise<string | null> {
+    const statement = `query Echo($msg: String) {
+        echo(msg: $msg)
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (msg) {
+      gqlAPIServiceArguments.msg = msg;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <string | null>response.data.echo;
+  }
   async GetScanEntry(id: string): Promise<GetScanEntryQuery> {
     const statement = `query GetScanEntry($id: ID!) {
         getScanEntry(id: $id) {
@@ -410,12 +477,13 @@ export class APIService {
     )) as any;
     return <ListScanEntriesQuery>response.data.listScanEntries;
   }
-  OnCreateScanEntryListener: Observable<
+  OnCreateScanEntryListener(
+    filter?: ModelSubscriptionScanEntryFilterInput
+  ): Observable<
     SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateScanEntry">>
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateScanEntry {
-        onCreateScanEntry {
+  > {
+    const statement = `subscription OnCreateScanEntry($filter: ModelSubscriptionScanEntryFilterInput) {
+        onCreateScanEntry(filter: $filter) {
           __typename
           id
           user
@@ -427,18 +495,25 @@ export class APIService {
           createdAt
           updatedAt
         }
-      }`
-    )
-  ) as Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateScanEntry">>
-  >;
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    return API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    ) as Observable<
+      SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateScanEntry">>
+    >;
+  }
 
-  OnUpdateScanEntryListener: Observable<
+  OnUpdateScanEntryListener(
+    filter?: ModelSubscriptionScanEntryFilterInput
+  ): Observable<
     SubscriptionResponse<Pick<__SubscriptionContainer, "onUpdateScanEntry">>
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateScanEntry {
-        onUpdateScanEntry {
+  > {
+    const statement = `subscription OnUpdateScanEntry($filter: ModelSubscriptionScanEntryFilterInput) {
+        onUpdateScanEntry(filter: $filter) {
           __typename
           id
           user
@@ -450,18 +525,25 @@ export class APIService {
           createdAt
           updatedAt
         }
-      }`
-    )
-  ) as Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onUpdateScanEntry">>
-  >;
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    return API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    ) as Observable<
+      SubscriptionResponse<Pick<__SubscriptionContainer, "onUpdateScanEntry">>
+    >;
+  }
 
-  OnDeleteScanEntryListener: Observable<
+  OnDeleteScanEntryListener(
+    filter?: ModelSubscriptionScanEntryFilterInput
+  ): Observable<
     SubscriptionResponse<Pick<__SubscriptionContainer, "onDeleteScanEntry">>
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteScanEntry {
-        onDeleteScanEntry {
+  > {
+    const statement = `subscription OnDeleteScanEntry($filter: ModelSubscriptionScanEntryFilterInput) {
+        onDeleteScanEntry(filter: $filter) {
           __typename
           id
           user
@@ -473,9 +555,15 @@ export class APIService {
           createdAt
           updatedAt
         }
-      }`
-    )
-  ) as Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, "onDeleteScanEntry">>
-  >;
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    return API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    ) as Observable<
+      SubscriptionResponse<Pick<__SubscriptionContainer, "onDeleteScanEntry">>
+    >;
+  }
 }

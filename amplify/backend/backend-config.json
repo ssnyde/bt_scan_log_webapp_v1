@@ -44,5 +44,12 @@
         ]
       }
     }
+  },
+  "function": {
+    "btscanwebappv1Test1": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
   }
 }
