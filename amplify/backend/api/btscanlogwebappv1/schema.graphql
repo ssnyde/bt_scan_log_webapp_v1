@@ -1,4 +1,4 @@
-type ScanEntry @model @auth(rules: [{ allow: public }] {
+type ScanEntry @model @auth(rules: [{ allow: public }]) {
   id: ID!
   user: String!
   home: String!
@@ -8,6 +8,6 @@ type ScanEntry @model @auth(rules: [{ allow: public }] {
   rssi: Int!
 }
 
-type Query @auth(rules [{ allow:private }]) {
+type Query {
   echo(msg: String): String @function(name: "btscanwebappv1Test1-${env}")
 }
