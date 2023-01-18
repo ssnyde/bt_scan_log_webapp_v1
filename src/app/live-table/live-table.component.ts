@@ -35,11 +35,11 @@ export class LiveTableComponent implements OnInit, OnDestroy {
   }
 
   handle_data(data: any) {
-    //console.log(data.value);
+    console.log(data.value);
     for (let new_column in data.value) {
       if (!this.columnList.includes(new_column)) {
         this.columnList.push(new_column);
-        //console.log("Added column " + new_column);
+        console.log("Added column " + new_column);
       }
     }
     this.dataSourceI.push(data.value);
@@ -47,7 +47,7 @@ export class LiveTableComponent implements OnInit, OnDestroy {
   }
 
   ngAfterContentInit() {
-    PubSub.subscribe('dt/bt_scan_log_v1/scanner_sim_1').subscribe({
+    PubSub.subscribe('dt/bt_scan_log_v1/BS12K00000').subscribe({
       next: data => this.handle_data(data),
       error: error => console.error(error),
       complete: () => console.log('Done'),

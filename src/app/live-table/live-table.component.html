@@ -7,6 +7,15 @@
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="clear()">Clear Table</button>
 </div>
+<div class="flex-container">
+    <mat-form-field appearance="fill">
+        <mat-label>Columns</mat-label>
+        <mat-select [(value)] = "columnSelected" [formControl]="columnSelect" multiple>
+        <mat-option *ngFor="let column of columnList" [value]="column">{{column}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="clear()">Clear Table</button>
+</div>
 <div class="flex-container-2">
     <mat-form-field appearance="standard">
     <mat-label>Filter</mat-label>
