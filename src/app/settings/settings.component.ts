@@ -15,16 +15,13 @@ export class SettingsComponent implements OnInit, AfterContentChecked {
   constructor(private api: APIService) { }
 
   ngOnInit(): void {
-    Auth.currentCredentials().then((info) => {
-      this.cognitoIdentityId = info.identityId;
-      console.log("Identity ID:" + info.identityId);
+    Auth.currentSession().then((info) => {
+      console.log("currentSession info: " + JSON.stringify(info.getIdToken()));
+      this.api.Echo(JSON.stringify(info.getIdToken())).then((resp) => {
+        console.log("Echo responded with: " + resp);
+      })
     });
-    Auth.currentAuthenticatedUser().then((info) => {
-      console.log("User ID (Sub): " + info.attributes.sub);
-    });
-    this.api.Echo("donkey").then((resp) => {
-      console.log("Echo responded with: " + resp);
-    })
+
   }
 
 

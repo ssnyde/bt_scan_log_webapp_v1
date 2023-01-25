@@ -4,10 +4,8 @@
     "apiName": "btscanlogwebappv1",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "expirationTime": 7,
-      "apiKeyExpirationDate": "2022-10-17T01:34:06.985Z",
-      "keyDescription": ""
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authbtscanlogwebappv1b12fceb2"
     },
     "conflictResolution": {},
     "additionalAuthTypes": []

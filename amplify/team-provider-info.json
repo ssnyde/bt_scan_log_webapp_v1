@@ -18,7 +18,7 @@
       "function": {
         "btscanwebappv1Test1": {
           "deploymentBucketName": "amplify-btscanlogwebappv1-dev-223100-deployment",
-          "s3Key": "amplify-builds/btscanwebappv1Test1-6f6b564d513150645874-build.zip"
+          "s3Key": "amplify-builds/btscanwebappv1Test1-526f6a383573334e3873-build.zip"
         }
       },
       "api": {
