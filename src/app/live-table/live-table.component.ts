@@ -64,6 +64,8 @@ export class LiveTableComponent implements OnInit, OnDestroy {
   clear() {
     this.dataSourceI.length = 0;
     this.table.renderRows();
+    this.columnList.length = 0;
+    this.columnSelected = [];
   }
 
   applyFilter(event: Event) {
