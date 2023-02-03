@@ -47,6 +47,7 @@ export class LiveTableComponent implements OnInit, OnDestroy {
   }
 
   ngAfterContentInit() {
+    console.log("Subscribe!");
     PubSub.subscribe('dt/bt_scan_log_v1/BS12K00000').subscribe({
       next: data => this.handle_data(data),
       error: error => console.error(error),
@@ -55,6 +56,7 @@ export class LiveTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log("Destroyed!");
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
