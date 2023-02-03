@@ -7,7 +7,7 @@ import { APIService } from '../API.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit, AfterContentChecked {
+export class SettingsComponent implements OnInit {
 
   @Input() isVisible: Boolean = true;
   cognitoIdentityId: string = '';
@@ -22,14 +22,6 @@ export class SettingsComponent implements OnInit, AfterContentChecked {
       })
     });
 
-  }
-
-
-
-  ngAfterContentChecked(): void {
-    if (this.isVisible == true) {
-      console.log("Settings became visible");
-    }
   }
 
 }
