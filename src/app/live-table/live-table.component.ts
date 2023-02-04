@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import Amplify, { PubSub, Auth } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub'
 import { FormControl } from '@angular/forms';
@@ -10,7 +11,7 @@ import { FormControl } from '@angular/forms';
   templateUrl: './live-table.component.html',
   styleUrls: ['./live-table.component.css']
 })
-export class LiveTableComponent implements OnInit, OnDestroy {
+export class LiveTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   dataSourceI: Array<any> = [];
   dataSource = new MatTableDataSource(this.dataSourceI);
@@ -19,6 +20,7 @@ export class LiveTableComponent implements OnInit, OnDestroy {
   columnSelected: string[] = [];
   private subscription: Subscription | null = null;
   @ViewChild(MatTable) table!: MatTable<any>;
+  @ViewChild(MatSort) sort: MatSort = new MatSort();
   @Input() isVisible: Boolean = true;
 
   constructor() { }
@@ -32,6 +34,11 @@ export class LiveTableComponent implements OnInit, OnDestroy {
           'wss://al9jms4pkzeur-ats.iot.us-east-1.amazonaws.com/mqtt'
       })
     );
+    //test code for adding some data to see if sorting works
+    //this.columnList.push("name");
+    //this.columnList.push("id")
+    //this.dataSourceI.push({"name":"steve","id":"01"})
+    //this.dataSourceI.push({"name":"jeve","id":"03"})
   }
 
   handle_data(data: any) {
@@ -42,8 +49,11 @@ export class LiveTableComponent implements OnInit, OnDestroy {
         console.log("Added column " + new_column);
       }
     }
-    this.dataSourceI.push(data.value);
+    this.dataSourceI.unshift(data.value);
     this.table.renderRows();
+    //renderRows seems to not work after implementing sorting, needed this call
+    //https://stackoverflow.com/questions/68619461/angular-material-table-renderrows-does-not-work-with-matsort?noredirect=1&lq=1
+    this.dataSource._updateChangeSubscription();
   }
 
   ngAfterContentInit() {
@@ -53,6 +63,10 @@ export class LiveTableComponent implements OnInit, OnDestroy {
       error: error => console.error(error),
       complete: () => console.log('Done'),
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
   }
 
   ngOnDestroy() {
