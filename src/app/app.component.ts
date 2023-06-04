@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Amplify, { PubSub, Auth } from 'aws-amplify';
+import { AWSIoTProvider } from '@aws-amplify/pubsub'
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,13 @@ export class AppComponent implements OnInit {
       //this.cognitoIdentityId = info.identityId;
       //console.log(info.identityId);
     });
+    Amplify.addPluggable(
+      new AWSIoTProvider({
+        aws_pubsub_region: 'us-east-1',
+        aws_pubsub_endpoint:
+          'wss://al9jms4pkzeur-ats.iot.us-east-1.amazonaws.com/mqtt'
+      })
+    );
   }
 
   showTable() {

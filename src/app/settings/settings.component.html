@@ -1,7 +1,7 @@
 <div class="flex-container">
     <mat-form-field appearance="fill">
         <mat-label>Scanner ID:</mat-label>
-        <input matInput>
+        <input matInput [(ngModel)] = 'scanner_id_box'>
     </mat-form-field>
-    <button mat-raised-button color="primary">Add Scanner</button>
+    <button mat-raised-button color="primary" (click)="addScanner()">Add Scanner</button>
 </div>

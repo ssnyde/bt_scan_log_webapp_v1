@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, Input, AfterViewInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import Amplify, { PubSub, Auth } from 'aws-amplify';
+import Amplify, { PubSub } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub'
 import { FormControl } from '@angular/forms';
 
@@ -18,7 +17,8 @@ export class LiveTableComponent implements OnInit, OnDestroy, AfterViewInit {
   columnSelect = new FormControl('');
   columnList: string[] = [];
   columnSelected: string[] = [];
-  private subscription: Subscription | null = null;
+  //could not figure out what type this should be or how to initialize it
+  subscription: any = null;
   @ViewChild(MatTable) table!: MatTable<any>;
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @Input() isVisible: Boolean = true;
@@ -39,6 +39,12 @@ export class LiveTableComponent implements OnInit, OnDestroy, AfterViewInit {
     //this.columnList.push("id")
     //this.dataSourceI.push({"name":"steve","id":"01"})
     //this.dataSourceI.push({"name":"jeve","id":"03"})
+    console.log("Subscribe!");
+    this.subscription = PubSub.subscribe('dt/bt_scan_log_v1/BS12K00000').subscribe({
+      next: data => this.handle_data(data),
+      error: error => console.error(error),
+      complete: () => console.log('Done'),
+    });
   }
 
   handle_data(data: any) {
@@ -57,12 +63,7 @@ export class LiveTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterContentInit() {
-    console.log("Subscribe!");
-    PubSub.subscribe('dt/bt_scan_log_v1/BS12K00000').subscribe({
-      next: data => this.handle_data(data),
-      error: error => console.error(error),
-      complete: () => console.log('Done'),
-    });
+    
   }
 
   ngAfterViewInit(): void {
@@ -72,6 +73,7 @@ export class LiveTableComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     console.log("Destroyed!");
     if (this.subscription) {
+      console.log("Unsubscribe!");
       this.subscription.unsubscribe();
     }
     this.subscription = null;
